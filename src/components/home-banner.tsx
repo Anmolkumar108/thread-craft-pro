@@ -13,8 +13,8 @@ export function HomeBanner() {
   const touchStart = useRef<number | null>(null);
   const slides = [
     { image: data.hero.image, alt: 'Thread cones on an industrial winding machine — illustrative textile photography', label: 'Threaded with purpose' },
-    { image: photo('products',4), alt: 'Colourful embroidery threads — illustrative thread collection', label: 'Colour. Texture. Possibility.' },
-    { image: photo('process',1), alt: 'Precision thread winding machinery — illustrative textile production', label: 'Focused on every detail' },
+    { image: photo('manufacturing',1), alt: 'Weaving looms producing broad fabric sheets — illustrative textile manufacturing', label: 'Textile weaving' },
+    { image: photo('manufacturing',2), alt: 'Garment workshop with fabric cutting and industrial sewing — illustrative textile production', label: 'Textile and apparel production' },
   ];
   function move(direction: number) { setActive(current => (current + direction + slides.length) % slides.length); }
   useEffect(() => {
