@@ -4,7 +4,11 @@ const images = import.meta.glob('../assets/*-*.jpg', { eager: true, import: 'def
 export const photo = (group: string, n: number) => images[`../assets/${group}-${n}.jpg`] || heroImage;
 export type Item = { id: string; title: string; description: string; image: string; visible: boolean; category?: string; application?: string; type?: string; features?: string; variants?: string; industries?: string; value?: string; author?: string; order?: string };
 export type Enquiry = { id: string; name: string; company: string; phone: string; email: string; product: string; requirement: string; message: string; date: string; status: string };
-export type Cms = { hero: Record<string,string>; about: Record<string,string>; contact: Record<string,string>; settings: Record<string,string>; products: Item[]; categories: Item[]; capabilities: Item[]; process: Item[]; quality: Item[]; gallery: Item[]; testimonials: Item[]; stats: Item[]; enquiries: Enquiry[] };
+export type Hero = {title:string;subtitle:string;description:string;primaryCta:string;secondaryCta:string;image:string;visible:string};
+export type About = {title:string;description:string;image:string;vision:string;mission:string};
+export type Contact = {phone:string;email:string;address:string;whatsapp:string;hours:string};
+export type Settings = {title:string;logo:string;footer:string;social:string;seoTitle:string;seoDescription:string};
+export type Cms = { hero: Hero; about: About; contact: Contact; settings: Settings; products: Item[]; categories: Item[]; capabilities: Item[]; process: Item[]; quality: Item[]; gallery: Item[]; testimonials: Item[]; stats: Item[]; enquiries: Enquiry[] };
 export type Collection = 'products'|'categories'|'capabilities'|'process'|'quality'|'gallery'|'testimonials'|'stats';
 const item = (title: string, i: number, group='products', description='') : Item => ({ id: `${group}-${i}-${title}`, title, description, image: photo(group,i%9+1), visible:true });
 const productNames=['Sewing Threads','Polyester Threads','Cotton Threads','Embroidery Threads','Industrial Threads','High-Strength Threads','Garment Threads','Custom Thread Solutions'];
