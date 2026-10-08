@@ -8,12 +8,13 @@ export type Hero = {title:string;subtitle:string;description:string;primaryCta:s
 export type About = {title:string;description:string;image:string;vision:string;mission:string;consistentQuality:string;reliableSupply:string;b2bFocus:string;customerSupport:string};
 export type Contact = {phone:string;email:string;address:string;whatsapp:string;hours:string};
 export type Settings = {title:string;logo:string;footer:string;social:string;seoTitle:string;seoDescription:string};
-export type Cms = { hero: Hero; about: About; contact: Contact; settings: Settings; products: Item[]; categories: Item[]; capabilities: Item[]; process: Item[]; quality: Item[]; gallery: Item[]; testimonials: Item[]; stats: Item[]; enquiries: Enquiry[] };
+export type Cms = { imageryVersion?: number; hero: Hero; about: About; contact: Contact; settings: Settings; products: Item[]; categories: Item[]; capabilities: Item[]; process: Item[]; quality: Item[]; gallery: Item[]; testimonials: Item[]; stats: Item[]; enquiries: Enquiry[] };
 export type Collection = 'products'|'categories'|'capabilities'|'process'|'quality'|'gallery'|'testimonials'|'stats';
 const item = (title: string, i: number, group='products', description='') : Item => ({ id: `${group}-${i}-${title}`, title, description, image: photo(group,i%9+1), visible:true });
 const productNames=['Sewing Threads','Polyester Threads','Cotton Threads','Embroidery Threads','Industrial Threads','High-Strength Threads','Garment Threads','Custom Thread Solutions'];
 const applications=['Garment Manufacturing','Apparel','Home Textiles','Embroidery','Industrial Stitching','Manufacturing Units','Fashion & Lifestyle','Textile Production'];
 export const initialCms: Cms = {
+ imageryVersion:1,
  hero:{ title:'MM Thread',subtitle:'Precision in Every Thread',description:'Quality-focused thread solutions. Consistent performance. Dependable supply. A partner woven into your business.',primaryCta:'Explore Products',secondaryCta:'Send Enquiry',image:heroImage,visible:'true' },
  about:{title:'Built Around Quality, Consistency & Trust',description:'Based in Kolhapur, Maharashtra, MM Thread brings a focused approach to thread and textile solutions. We understand that the smallest thread plays a big role in the finished product — and in the business behind it.',image:photo('applications',9),vision:'To be a dependable thread and textile solutions partner for modern B2B manufacturing.',mission:'Support our customers with thoughtful product selection, consistent quality and responsive service.',consistentQuality:'A considered approach to material, finish and product consistency.',reliableSupply:'Coordinated supply and clear communication around your requirements.',b2bFocus:'Product selection that understands textile and manufacturing applications.',customerSupport:'Responsive support and a customer-oriented partnership mindset.'},
  contact:{phone:'072184 36062',email:'support@mmthread.com',address:'Bhimnagar Housing Society, Plot No 27, Kadamawadi Road, Laxminarayan Nagar, Kadamwadi, Kolhapur, Maharashtra 416003, India',whatsapp:'917218436062',hours:'Business hours to be confirmed'},
@@ -28,9 +29,22 @@ export const initialCms: Cms = {
  stats:[{...item('Product Categories',0),value:'8'},{...item('Quality Focus',1),value:'100%'},{...item('Business Supply',2),value:'B2B'},{...item('Based Operations',3),value:'Kolhapur'}],enquiries:[]
 };
 const Context=createContext<{data:Cms;setData:(next:Cms|((old:Cms)=>Cms))=>void;ready:boolean}>({data:initialCms,setData:()=>{},ready:false});
+const manufacturingGallery: Item[] = ['Fabric weaving looms','Garment cutting and stitching','Fabric finishing rollers','Fabric quality inspection'].map((title,i)=>({id:`manufacturing-gallery-${i+1}`,title,description:'Illustrative textile industry photography; not an MM Thread facility.',image:photo('manufacturing',i+1),visible:true,category:'Manufacturing'}));
+const capabilityPhotos: Record<string,number> = {'Product Development':2,'Thread Selection':1,'Quality Control':4,'Custom Requirements':3};
+const processPhotos: Record<string,number> = {'Material Selection':2,'Production / Processing':1,'Quality Inspection':4,'Packaging':3};
+initialCms.about.image=photo('manufacturing',1);
+initialCms.capabilities=initialCms.capabilities.map(row=>({...row,image:capabilityPhotos[row.title]?photo('manufacturing',capabilityPhotos[row.title]||1):row.image}));
+initialCms.process=initialCms.process.map(row=>({...row,image:processPhotos[row.title]?photo('manufacturing',processPhotos[row.title]||1):row.image}));
+initialCms.gallery=[...manufacturingGallery,...initialCms.gallery];
+export function upgradeTextileImagery(saved:Cms):Cms {
+ if ((saved.imageryVersion||0)>=1) return saved;
+ const isLegacy=(image:string)=>image===photo('applications',9)||Array.from({length:9},(_,i)=>photo('process',i+1)).includes(image)||/(?:^|\/)(?:process-[1-9]|applications-9)(?:[-.]|$)/.test(image);
+ const update=(rows:Item[],defaults:Item[])=>rows.map(row=>{const replacement=defaults.find(item=>item.id===row.id);return replacement&&isLegacy(row.image)?{...row,image:replacement.image}:row;});
+ return {...saved,imageryVersion:1,about:isLegacy(saved.about.image)?{...saved.about,image:initialCms.about.image}:saved.about,capabilities:update(saved.capabilities,initialCms.capabilities),process:update(saved.process,initialCms.process),gallery:[...manufacturingGallery.filter(row=>!saved.gallery.some(existing=>existing.id===row.id)),...saved.gallery]};
+}
 export function CmsProvider({children}:{children:ReactNode}){
  const [data,setData]=useState<Cms>(initialCms);const [ready,setReady]=useState(false);
- useEffect(()=>{try {const saved=localStorage.getItem('mm-thread-cms-v1');if(saved)setData({...initialCms,...JSON.parse(saved)});}catch{}setReady(true);},[]);
+ useEffect(()=>{try {const saved=localStorage.getItem('mm-thread-cms-v1');if(saved){const parsed=JSON.parse(saved);setData(upgradeTextileImagery({...initialCms,...parsed,imageryVersion:parsed.imageryVersion||0}));}}catch{}setReady(true);},[]);
  useEffect(()=>{if(ready)localStorage.setItem('mm-thread-cms-v1',JSON.stringify(data));},[data,ready]);
  return <Context.Provider value={{data,setData,ready}}>{children}</Context.Provider>;
 }
