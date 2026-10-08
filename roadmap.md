@@ -4,5 +4,6 @@
 - [x] Bundled imagery, responsive styles and accessibility
 - [x] Verify routes, edits, login/logout, images and mobile layout
 - [x] Add photo banners to every public page and a homepage slideshow; verify navigation and image loading
+- [ ] Add textile manufacturing photography to the slideshow, public sections and CMS gallery; preserve existing edits and verify image loading
 
 Deployment to Vercel has not been requested or verified; bundled image loading is verified in the running preview.
