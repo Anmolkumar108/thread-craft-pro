@@ -7,6 +7,8 @@ export function HomeBanner() {
   const { data } = useCms();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const touchStart = useRef<number | null>(null);
   const slides = [
@@ -22,16 +24,16 @@ export function HomeBanner() {
     return () => query.removeEventListener('change', update);
   }, []);
   useEffect(() => {
-    if (paused || reducedMotion || data.hero.visible === 'false') return;
+    if (paused || hovered || focused || reducedMotion || data.hero.visible === 'false') return;
     const timer = window.setInterval(() => {
       if (!document.hidden) setActive(current => (current + 1) % 3);
     }, 5500);
     return () => window.clearInterval(timer);
-  }, [paused, reducedMotion, active, data.hero.visible]);
+  }, [paused, hovered, focused, reducedMotion, active, data.hero.visible]);
   if (data.hero.visible === 'false') return null;
   return <section className="hero" aria-label="MM Thread banner slideshow" aria-roledescription="carousel"
-    onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
-    onFocusCapture={() => setPaused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}
+    onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    onFocusCapture={() => setFocused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}
     onTouchStart={event => { touchStart.current = event.touches[0]?.clientX ?? null; }}
     onTouchEnd={event => { const end = event.changedTouches[0]?.clientX; if (touchStart.current !== null && end !== undefined && Math.abs(end - touchStart.current) > 50) move(end < touchStart.current ? 1 : -1); touchStart.current = null; }}>
     <div className="hero-slides">{slides.map((slide, index) => <div key={index} className={`hero-slide ${active === index ? 'is-active' : ''}`} aria-hidden={active !== index} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${slides.length}`}><Picture src={slide.image} alt={slide.alt} eager/></div>)}</div>
