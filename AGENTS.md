@@ -15,3 +15,4 @@
 - Shared mock CMS state lives in a React provider with browser-only localStorage persistence; no remote data services, real authentication, or database calls are used.
 - Public content pages use separate TanStack leaf routes; admin routes bypass the public shell and use a sessionStorage demo gate, not a security boundary.
 - Bundle local photography through ES module imports so image URLs resolve correctly after deployment.
+- Public page introductions share photographic banners; the homepage carousel reuses CMS hero content and pauses for focus, hover, and reduced motion to preserve editing and accessibility.
