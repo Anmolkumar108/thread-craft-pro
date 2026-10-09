@@ -1,5 +1,5 @@
 # MM Thread
-- [ ] Inspect reference home video and applicable sections; agree video reuse or original footage, then implement and verify
+- [ ] Generate original illustrative textile home video, add reference-inspired collection navigation and partnership section, verify playback and links
 - [x] Refine logo/navigation separation and premium homepage styling; verified five screen sizes, carousel controls and product navigation
 - [x] Public pages, catalogue filters, product details and gallery lightbox
 - [x] Demo CMS, all admin modules and persistent enquiries
