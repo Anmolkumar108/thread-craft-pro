@@ -8,7 +8,7 @@ export function CollectionNavigation() {
   if (!categories.length) return null;
   return <section className="collection-navigation" aria-label="Thread collections"><div className="container collection-navigation-inner">
     <Link to="/products" className="collection-heading"><span className="tag">Our collections</span><span>Find your thread <Icon name="arrow"/></span></Link>
-    <div className="collection-links">{categories.map(category => <Link key={category.id} to="/products" hash={category.id}>{category.title}<Icon name="chevron"/></Link>)}</div>
+    <div className="collection-links">{categories.map(category => <Link key={category.id} to="/products" search={{category:category.title}}>{category.title}<Icon name="chevron"/></Link>)}</div>
   </div></section>;
 }
 
