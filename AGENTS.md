@@ -19,3 +19,5 @@
 - Default photography updates use versioned, image-only CMS migrations that preserve custom images and other edits; gallery additions run once so later admin changes remain authoritative.
 
 - Scope homepage editorial styles through the public main element; keep shared masthead spacing independent of banners so navigation never overlaps imagery.
+
+- Home collection links pass a validated optional category search parameter to the catalogue; homepage partnership copy reuses About CMS fields so admin edits remain authoritative.
