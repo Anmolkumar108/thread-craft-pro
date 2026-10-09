@@ -39,15 +39,15 @@ export function HomeBanner() {
     <div className="hero-slides">{slides.map((slide, index) => <div key={index} className={`hero-slide ${active === index ? 'is-active' : ''}`} aria-hidden={active !== index} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${slides.length}`}><Picture src={slide.image} alt={slide.alt} eager/></div>)}</div>
     <div className="container hero-content reveal">
       <div className="eyebrow">Thread & Textile Solutions · Kolhapur, India</div>
-      <div className="hero-brand">{data.hero.title}</div>
-      <h1>{data.hero.subtitle === 'Precision in Every Thread' ? <>Precision in<br/>Every <span>Thread.</span></> : data.hero.subtitle}</h1>
+      <h1>{data.hero.title}</h1>
+      <div className="hero-subtitle">{data.hero.subtitle === 'Precision in Every Thread' ? <>Precision in Every <span>Thread.</span></> : data.hero.subtitle}</div>
       <p>{data.hero.description}</p>
       <div className="hero-actions"><Link to="/products" className="btn btn-primary">{data.hero.primaryCta}<Icon name="arrow"/></Link><Link to="/contact" className="btn btn-outline">{data.hero.secondaryCta}<Icon name="arrow"/></Link></div>
     </div>
     <div className="container hero-bottom">
       <a href="#our-story" className="scroll-label"><span className="scroll-line"/>Scroll to discover</a>
       <div className="banner-controls">
-        <span className="banner-count">0{active + 1} / 0{slides.length}</span>
+        <div className="banner-caption"><span>{slides[active]?.label}</span><span className="banner-count">0{active + 1} / 0{slides.length}</span></div>
         <Button variant="outline" className="banner-arrow banner-prev" aria-label="Previous slide" onClick={() => move(-1)}><Icon name="chevron"/></Button>
         <div className="banner-dots">{slides.map((slide, index) => <Button key={slide.label} variant="text" className={`banner-dot ${active === index ? 'is-active' : ''}`} aria-label={`Go to slide ${index + 1}`} aria-pressed={active === index} onClick={() => setActive(index)}><span/></Button>)}</div>
         <Button variant="outline" className="banner-arrow" aria-label="Next slide" onClick={() => move(1)}><Icon name="chevron"/></Button>

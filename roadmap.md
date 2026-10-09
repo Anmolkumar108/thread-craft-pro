@@ -1,4 +1,5 @@
 # MM Thread
+- [ ] Refine logo/navigation separation and premium homepage styling; verify desktop and mobile layouts and carousel
 - [x] Public pages, catalogue filters, product details and gallery lightbox
 - [x] Demo CMS, all admin modules and persistent enquiries
 - [x] Bundled imagery, responsive styles and accessibility
