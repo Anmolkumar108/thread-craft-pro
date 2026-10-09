@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { photo, useCms } from '@/lib/cms';
+import homeVideo from '@/assets/home-video.mp4.asset.json';
 import { Button, Icon, Picture } from './controls';
 
 export function HomeBanner() {
@@ -11,8 +12,9 @@ export function HomeBanner() {
   const [focused, setFocused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const touchStart = useRef<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const slides = [
-    { image: data.hero.image, alt: 'Thread cones on an industrial winding machine — illustrative textile photography', label: 'Threaded with purpose' },
+    { video: homeVideo.url, image: data.hero.image, alt: 'Industrial thread and textile manufacturing in motion — illustrative footage, not a verified MM Thread facility', label: 'Textile manufacturing in motion' },
     { image: photo('manufacturing',1), alt: 'Weaving looms producing broad fabric sheets — illustrative textile manufacturing', label: 'Textile weaving' },
     { image: photo('manufacturing',2), alt: 'Garment workshop with fabric cutting and industrial sewing — illustrative textile production', label: 'Textile and apparel production' },
   ];
