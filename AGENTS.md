@@ -17,3 +17,5 @@
 - Bundle local photography through ES module imports so image URLs resolve correctly after deployment.
 - Public page introductions share photographic banners; the homepage carousel reuses CMS hero content and pauses for focus, hover, and reduced motion to preserve editing and accessibility.
 - Default photography updates use versioned, image-only CMS migrations that preserve custom images and other edits; gallery additions run once so later admin changes remain authoritative.
+
+- Scope homepage editorial styles through the public main element; keep shared masthead spacing independent of banners so navigation never overlaps imagery.
